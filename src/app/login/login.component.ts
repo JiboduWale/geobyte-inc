@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
-import { LoginRequest } from '../interfaces/login-request'; // Import the LoginRequest model
+import { LoginRequest } from '../interfaces/login-request';
+import {tap} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -13,11 +14,13 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loading = false;
   submitted = false;
+  errorMessage: string = '';
+
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -52,18 +55,22 @@ export class LoginComponent implements OnInit {
       password: this.password!.value
     };
 
-    // Call your user service's login method with the LoginRequest object
-    this.userService.login(loginRequest)
-      .subscribe(
-        response => {
-          // Handle successful login
-          this.router.navigate(['/dashboard']); // Navigate to the dashboard or desired page
-        },
-        error => {
-          // Handle login error, show error message
-          this.loading = false;
-          // You can display an error message to the user here
-        }
-      );
+    // Calling user service's login method with the LoginRequest object
+    this.userService.login(loginRequest).pipe(
+      tap(response => {
+        // Handle successful login
+        this.router.navigate(['/dashboard']).then(() => {
+          // Navigation was successful
+        }).catch(error => {
+          // Handle the error here
+          console.error('Navigation error:', error);
+        });
+      })
+    ).subscribe(
+      error => {
+        this.loading = false;
+        this.errorMessage = 'Login failed. Please check your email and password.';
+      }
+    );
   }
 }

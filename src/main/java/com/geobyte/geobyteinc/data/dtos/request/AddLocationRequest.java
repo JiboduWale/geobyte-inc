@@ -4,8 +4,7 @@ import com.geobyte.geobyteinc.data.models.Location;
 import com.geobyte.geobyteinc.data.models.NeighboringLocations;
 import lombok.*;
 
-import java.util.List;
-import java.util.Set;
+
 
 @Data
 @NoArgsConstructor

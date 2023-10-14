@@ -1,0 +1,23 @@
+.registration-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+}
+
+.loading-message {
+  color: #333;
+  font-size: 14px;
+}
