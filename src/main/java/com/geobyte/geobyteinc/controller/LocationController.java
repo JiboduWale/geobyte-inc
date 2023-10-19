@@ -3,16 +3,14 @@ package com.geobyte.geobyteinc.controller;
 import com.geobyte.geobyteinc.data.dtos.request.AddLocationRequest;
 import com.geobyte.geobyteinc.data.dtos.ApiResponse;
 import com.geobyte.geobyteinc.data.dtos.request.UpdateLocationRequest;
-import com.geobyte.geobyteinc.data.models.Location;
 import com.geobyte.geobyteinc.service.LocationService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
-import java.util.List;
+
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController

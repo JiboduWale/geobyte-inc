@@ -19,7 +19,7 @@ public class DijkstraAlgorithm  {
 
   public DijkstraAlgorithm(Graph graph) {
     this.nodes = new ArrayList<>(graph.getLocations());
-    this.edges = new ArrayList<>(graph.getDeliveries());
+    this.edges = new ArrayList<>(graph.getNeighboringLocations());
   }
 
 

@@ -1,6 +1,6 @@
 package com.geobyte.geobyteinc.security;
 
-import com.geobyte.geobyteinc.data.enums.Role;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 
 
 @Configuration
