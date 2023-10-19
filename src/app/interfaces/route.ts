@@ -1,9 +1,8 @@
-import { Location } from './add-location';
+import { Location } from './location';
 
 export interface Route {
-  id: string;
-  origin: Location;
-  destination: Location;
-  optimalRoute: Location[]; // List of locations in the route
+  message: string;
+  status: number
+  optimalRoute: Location[];
   cost: number;
 }

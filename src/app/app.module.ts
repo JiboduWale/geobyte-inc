@@ -12,6 +12,10 @@ import { LocationManagementComponent } from './location-management/location-mana
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import {UserService} from "./services/user.service";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {LocationService} from "./services/location.service";
+import {DeliveryService} from "./services/delivery.service";
 
 @NgModule({
   declarations: [
@@ -29,9 +33,14 @@ import { FeedbackComponent } from './feedback/feedback.component';
         BrowserModule,
         FormsModule,
         AppRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpClientModule
     ],
-  providers: [],
+  providers: [UserService,
+    LocationService,
+    DeliveryService,
+    HttpClient
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

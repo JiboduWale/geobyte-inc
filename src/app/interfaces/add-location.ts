@@ -1,6 +1,5 @@
-export interface Location {
-  id: string;
-  address: String;
+export interface AddLocationRequest {
+  name: String;
   longitude: number;
   latitude: number;
 }

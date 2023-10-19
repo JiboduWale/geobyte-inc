@@ -15,6 +15,7 @@ export class RegistrationComponent implements OnInit {
   loading = false;
   submitted = false;
   errorMessage: string = '';
+  login: string = '/login';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -63,18 +64,29 @@ export class RegistrationComponent implements OnInit {
     this.userService.register(registrationRequest).pipe(
       tap(response => {
         // Handle successful login
-        this.router.navigate(['/dashboard']).then(() => {
+        this.router.navigate([this.login]).then(() => {
           // Navigation was successful
         }).catch(error => {
           // Handle the error here
           console.error('Navigation error:', error);
         });
       })
-    ).subscribe(
-      error => {
+    ).subscribe({
+      next: (response) => {
+        // Handle a successful login
+        console.log('registration successful');
+        this.router.navigate([this.login]).then(r => true);
+      },
+      error: (error) => {
         this.loading = false;
-        this.errorMessage = 'Registration failed. Please try again.';
+        if (error.status === 401) {
+          this.errorMessage = 'Registration failed. Please try again.';
+        } else if (error.status === 0) {
+          this.errorMessage = 'Network error. Please check your internet connection.';
+        } else {
+          this.errorMessage = 'An unknown error occurred. Please try again later.';
+        }
       }
-    );
+    });
   }
 }

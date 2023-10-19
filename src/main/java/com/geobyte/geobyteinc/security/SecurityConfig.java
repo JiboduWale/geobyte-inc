@@ -71,7 +71,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 mvc.pattern("api/v1/user/**"),
                                 mvc.pattern("api/v1/location/**"),
-                                mvc.pattern("api/v1/delivery/calculateOptimalRouteAndCost")
+                                mvc.pattern("api/v1/delivery/**"),
+                                mvc.pattern("/h2-console/**")
                         ).permitAll().anyRequest()
                         .authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

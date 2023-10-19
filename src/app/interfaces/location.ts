@@ -1,4 +1,4 @@
-export interface LocationUpdateRequest {
+export interface Location {
   id: number;
   name: string;
   longitude: number;

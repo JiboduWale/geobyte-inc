@@ -4,12 +4,11 @@ import com.geobyte.geobyteinc.data.dtos.request.AddLocationRequest;
 import com.geobyte.geobyteinc.data.dtos.Response;
 import com.geobyte.geobyteinc.data.dtos.request.UpdateLocationRequest;
 import com.geobyte.geobyteinc.data.models.Location;
-import com.geobyte.geobyteinc.data.models.NeighboringLocations;
 import com.geobyte.geobyteinc.repository.LocationRepository;
-import com.geobyte.geobyteinc.repository.NeighboringLocationRepository;
 import com.geobyte.geobyteinc.security.LocationAlreadyExistException;
 import com.geobyte.geobyteinc.service.LocationService;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +18,13 @@ import java.util.List;
  * Implementation of LocationService providing location management functionality.
  */
 @Service
+@Slf4j
 public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
-    private final NeighboringLocationRepository neighboringLocationRepository;
 
-    public LocationServiceImpl(LocationRepository locationRepository, NeighboringLocationRepository neighboringLocationRepository) {
+    public LocationServiceImpl(LocationRepository locationRepository) {
         this.locationRepository = locationRepository;
-        this.neighboringLocationRepository = neighboringLocationRepository;
     }
 
     /**
@@ -38,15 +36,12 @@ public class LocationServiceImpl implements LocationService {
     @Transactional
     @Override
     public Response addLocation(AddLocationRequest addLocationRequest) {
-        validateInputData(addLocationRequest);
+        validateLocationInputData(addLocationRequest);
 
         Location location = createLocationFromRequest(addLocationRequest);
 
         try {
-            location = locationRepository.save(location);
-
-            NeighboringLocations neighboringLocations = createNeighboringLocations(location);
-            neighboringLocationRepository.save(neighboringLocations);
+            locationRepository.save(location);
 
             return createSuccessResponse("Location saved successfully", HttpStatus.CREATED);
         } catch (Exception e) {
@@ -99,19 +94,17 @@ public class LocationServiceImpl implements LocationService {
      */
     @Override
     public Response updateLocation(UpdateLocationRequest updateLocationRequest) {
-        Location location = findLocation(updateLocationRequest.getId());
 
-        if (location.getName().equals(updateLocationRequest.getName())) {
-            throw new LocationAlreadyExistException("You cannot update a location with the same name");
-        }
+      Location location = validateUpdateLocationInputData(updateLocationRequest);
 
-        updateLocationDetails(location, updateLocationRequest);
+      updateLocationDetails(location, updateLocationRequest);
         locationRepository.save(location);
 
         return createSuccessResponse("Location updated successfully", HttpStatus.OK);
     }
 
-    /**
+
+  /**
      * Get the total count of locations.
      *
      * @return The count of locations.
@@ -121,27 +114,47 @@ public class LocationServiceImpl implements LocationService {
         return locationRepository.count();
     }
 
-    // Private helper methods
 
-    private void validateInputData(AddLocationRequest addLocationRequest) {
-        if (addLocationRequest == null) {
-            throw new IllegalArgumentException("Invalid input data");
+
+  // Private helper methods
+
+    private void  validateLocationInputData(AddLocationRequest addLocationRequest) {
+      if (addLocationRequest == null || addLocationRequest.getName().equals("")) {
+        throw new IllegalArgumentException("Invalid input data");
+      }
+
+      String newName = addLocationRequest.getName();
+      List<Location> locations = locationRepository.findAll();
+
+      for (Location location: locations) {
+
+        if (location.getName().equals(newName)) {
+          throw new IllegalArgumentException("Location name already exist");
         }
+      }
     }
+
+  private Location validateUpdateLocationInputData(UpdateLocationRequest updateLocationRequest) {
+    if (updateLocationRequest == null || updateLocationRequest.getName().equals("")) {
+      throw  new IllegalArgumentException("Invalid input data");
+    }
+
+    Location location = findLocation(updateLocationRequest.getId());
+
+    if (location.getName().equals(updateLocationRequest.getName())) {
+      throw new LocationAlreadyExistException("You cannot update a location with the same name");
+    }
+    return location;
+  }
 
     private Location createLocationFromRequest(AddLocationRequest addLocationRequest) {
         Location location = new Location();
-        location.setName(addLocationRequest.getName());
+        location.setName(addLocationRequest.getName().toLowerCase());
         location.setLongitude(addLocationRequest.getLongitude());
         location.setLatitude(addLocationRequest.getLatitude());
         return location;
     }
 
-    private NeighboringLocations createNeighboringLocations(Location location) {
-        NeighboringLocations neighboringLocations = new NeighboringLocations();
-        neighboringLocations.setId(location.getId());
-        return neighboringLocations;
-    }
 
     private Response createSuccessResponse(String message, HttpStatus status) {
         return Response.builder()

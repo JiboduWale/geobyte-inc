@@ -1,0 +1,25 @@
+
+.user-dashboard {
+  display: flex;
+}
+
+.location-management {
+  flex: 1;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.delivery-management {
+  flex: 1;
+  padding: 20px;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+}
+
+/* Media query for responsiveness */
+@media (max-width: 768px) {
+  .user-dashboard {
+    flex-direction: column; /* Stack components on small screens */
+  }
+}

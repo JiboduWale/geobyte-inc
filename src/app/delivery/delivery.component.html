@@ -1,1 +1,50 @@
-<p>delivery works!</p>
+<div class="delivery-container">
+  <!-- Add Neighboring Locations Form -->
+  <div class="add-neighboring-locations-form">
+    <h3>Add Neighboring Locations</h3>
+    <form (ngSubmit)="addNeighboringLocations()">
+      <div class="form-group">
+        <label for="originLocationId">Origin Location:</label>
+        <select id="originLocationId" name="originLocationId" [(ngModel)]="deliveryRequest.originLocationId" required>
+          <option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="destinationLocationId">Destination Location:</label>
+        <select id="destinationLocationId" name="destinationLocationId" [(ngModel)]="deliveryRequest.destinationLocationId" required>
+          <option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</option>
+        </select>
+      </div>
+      <button type="submit">Add Neighboring Locations to calculate shortest distance</button>
+    </form>
+  </div>
+
+  <!-- Calculate Optimal Route and Cost Form -->
+  <div class="calculate-optimal-route-form">
+    <h3>Calculate Optimal Route and Cost</h3>
+    <form (ngSubmit)="calculateOptimalRouteAndCost()">
+      <div class="form-group">
+        <label for="originLocationId">Origin Location:</label>
+        <select id="originId" name="originId" [(ngModel)]="deliveryRequest.originLocationId" required>
+          <option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="destinationLocationId">Destination Location:</label>
+        <select id="destinationId" name="destinationId" [(ngModel)]="deliveryRequest.destinationLocationId" required>
+          <option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</option>
+        </select>
+      </div>
+      <button type="submit">Calculate Optimal Route and Cost</button>
+
+      <div class="optimal-route-details">
+        <h3>Optimal Route and Cost</h3>
+        <p>Message: {{ route.message }}</p>
+        <p>Status: {{ route.status }}</p>
+        <p>Cost: {{ route.cost }}</p>
+        <p>Optimal Route: {{ route.optimalRoute | json }}</p>
+      </div>
+
+    </form>
+  </div>
+</div>

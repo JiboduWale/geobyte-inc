@@ -1,4 +1,4 @@
 export interface DeliveryRequest {
-  originLocationId: string;
-  destinationLocationId: string;
+  originLocationId: number;
+  destinationLocationId: number;
 }

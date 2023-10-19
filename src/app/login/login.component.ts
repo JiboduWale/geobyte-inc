@@ -59,18 +59,29 @@ export class LoginComponent implements OnInit {
     this.userService.login(loginRequest).pipe(
       tap(response => {
         // Handle successful login
-        this.router.navigate(['/dashboard']).then(() => {
+        this.router.navigate(['/location']).then(() => {
           // Navigation was successful
         }).catch(error => {
           // Handle the error here
           console.error('Navigation error:', error);
         });
       })
-    ).subscribe(
-      error => {
+    ).subscribe({
+      next: (response) => {
+        // Handle a successful login
+        console.log('Login successful');
+        this.router.navigate(['/user-dashboard']).then(r => true);
+      },
+      error: (error) => {
         this.loading = false;
-        this.errorMessage = 'Login failed. Please check your email and password.';
+        if (error.status === 401) {
+          this.errorMessage = 'Invalid email or password. Please try again.';
+        } else if (error.status === 0) {
+          this.errorMessage = 'Network error. Please check your internet connection.';
+        } else {
+          this.errorMessage = 'An unknown error occurred. Please try again later.';
+        }
       }
-    );
+    });
   }
 }

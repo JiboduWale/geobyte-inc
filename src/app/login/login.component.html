@@ -23,6 +23,9 @@
           <div *ngIf="loading" class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
           </div>
+          <div *ngIf="errorMessage" class="text-danger">
+            {{ errorMessage }}
+          </div>
         </div>
       </form>
     </div>

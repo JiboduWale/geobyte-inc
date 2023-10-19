@@ -1,0 +1,36 @@
+.delivery-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.neighboring-locations-form, .calculate-route-form {
+  background-color: #f4f4f4;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin: 10px 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+}
+
+button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.optimal-route-details {
+  margin-top: 20px;
+}

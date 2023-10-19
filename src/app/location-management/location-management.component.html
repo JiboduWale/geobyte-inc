@@ -1,1 +1,63 @@
-<p>location-management works!</p>
+<!-- location.component.html -->
+<div class="location-container">
+  <h2>Manage Locations</h2>
+
+  <!-- Add Location Form -->
+  <div class="location-form">
+    <h3>Add Location</h3>
+    <form (ngSubmit)="addLocation()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" [(ngModel)]="addLocationRequest.name" required>
+      </div>
+      <div class="form-group">
+        <label for="longitude">Longitude</label>
+        <input type="number" id="longitude" name="longitude" [(ngModel)]="addLocationRequest.longitude" required>
+      </div>
+      <div class="form-group">
+        <label for="latitude">Latitude</label>
+        <input type="number" id="latitude" name="latitude" [(ngModel)]="addLocationRequest.latitude" required>
+      </div>
+      <button type="submit" class="btn-add">Add</button>
+      <div *ngIf="errorMessageAddLocation" class="text-danger">
+        {{ errorMessageAddLocation }}
+      </div>
+    </form>
+  </div>
+
+  <!-- Update Location Form -->
+  <div class="location-form">
+    <h3>Update Location</h3>
+    <form (ngSubmit)="updateSelectedLocation()">
+      <div class="form-group">
+        <label for="updateName">Name</label>
+        <input type="text" id="updateName" name="updateName" [(ngModel)]="selectedLocation.name" required>
+      </div>
+      <div class="form-group">
+        <label for="updateLongitude">Longitude</label>
+        <input type="number" id="updateLongitude" name="updateLongitude" [(ngModel)]="selectedLocation.longitude" required>
+      </div>
+      <div class="form-group">
+        <label for="updateLatitude">Latitude</label>
+        <input type="number" id="updateLatitude" name="updateLatitude" [(ngModel)]="selectedLocation.latitude" required>
+      </div>
+      <button type="submit" class="btn-update-selected">Update</button>
+      <div *ngIf="errorMessageUpdateLocation" class="text-danger">
+        {{ errorMessageUpdateLocation }}
+      </div>
+    </form>
+  </div>
+
+
+  <!-- Location List -->
+  <div class="location-list">
+    <h3>Locations</h3>
+    <ul>
+      <li *ngFor="let location of locations" class="location-item">
+        {{ location.name }} ({{ location.longitude }}, {{ location.latitude }})
+        <button (click)="deleteLocation(location.id)" class="btn-delete">Delete</button>
+        <button (click)="updateLocation(location)" class="btn-update">Update</button>
+      </li>
+    </ul>
+  </div>
+</div>
